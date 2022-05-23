@@ -7,6 +7,13 @@ public class BuildingController
     private string buildingID;
     private string currentState;
 
+    private ILightManager iLightManager;
+    private IFireAlarmManager iFireAlarmManager;
+    private IDoorManager iDoorManager;
+    private IWebService iWebService;
+    private IEmailService iEmailService;
+    
+
     public BuildingController(string id)
     {
         buildingID = id.ToLower();
@@ -29,6 +36,19 @@ public class BuildingController
         
     }
 
+    public BuildingController(string id, ILightManager iLightManager, IFireAlarmManager iFireAlarmManager,
+        IDoorManager iDoorManager, IWebService iWebService, IEmailService iEmailService)
+    {
+        buildingID = id.ToLower();
+        currentState = "out of hours";
+
+        this.iLightManager = iLightManager;
+        this.iFireAlarmManager = iFireAlarmManager;
+        this.iDoorManager = iDoorManager;
+        this.iWebService = iWebService;
+        this.iEmailService = iEmailService;
+    }
+
     public string GetBuildingID()
     {
         return buildingID;
@@ -47,7 +67,9 @@ public class BuildingController
     public bool SetCurrentState(string state)
     {
         string historyState = "";
-
+        
+        
+        //level 02 requirements 
         if (currentState == "closed" && state is "out of hours")
         {
             currentState = state;
@@ -71,6 +93,7 @@ public class BuildingController
             SetCurrentState(state);
         }
         
+        //level 01 requirements 
         /*if (state is "closed" or "out of hours" or "open" or "fire drill" or "fire alarm")
         {
             currentState = state;
@@ -78,5 +101,15 @@ public class BuildingController
         }*/
 
         return true;
+    }
+    
+    //level 03 requirements
+    public string GetStatusReport()
+    {
+        string lightStatus = iLightManager.GetStatus();
+        string doorStatus = iDoorManager.GetStatus();
+        string fireAlarmStatus = iFireAlarmManager.GetStatus();
+        
+        return lightStatus + doorStatus + fireAlarmStatus;
     }
 }

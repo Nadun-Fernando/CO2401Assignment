@@ -2,5 +2,5 @@
 
 public interface ILightManager
 {
-    
+    string GetStatus();
 }
