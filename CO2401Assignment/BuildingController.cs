@@ -76,7 +76,18 @@ public class BuildingController
         }
         else if (currentState == "out of hours" && state is "closed" or "open")
         {
-            currentState = state;
+            if (state is "open")
+            {
+                if (!iDoorManager.OpenAllDoors())
+                {
+                    return false;
+                }
+                else
+                {
+                    currentState = state;
+                }
+            }
+            
         } 
         else if (currentState == "open" && state is "out of hours")
         {
@@ -89,9 +100,25 @@ public class BuildingController
         }
         else if (currentState is "fire drill" or "fire alarm" && state is "closed" or "out of hours" or "open" )
         {
-            currentState = historyState;
+            if (historyState is "open")
+            {
+                if (!iDoorManager.OpenAllDoors())
+                {
+                    return false;
+                }
+                else
+                {
+                    currentState = historyState;
+                }
+            }
+            else
+            {
+                currentState = historyState;
+            }
+            
             SetCurrentState(state);
         }
+       
         
         //level 01 requirements 
         /*if (state is "closed" or "out of hours" or "open" or "fire drill" or "fire alarm")
