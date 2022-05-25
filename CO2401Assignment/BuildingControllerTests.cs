@@ -24,10 +24,10 @@ public class BuildingControllerTests
         _fireAlarmManager = Substitute.For<IFireAlarmManager>();
         _webService = Substitute.For<IWebService>();
 
-        
-
     }
 
+    //level 1 test cases 
+    
     [Test]
     public void Check_if_ID_passed_to_through_Constructor()
     {
@@ -42,4 +42,113 @@ public class BuildingControllerTests
         Assert.AreEqual(result1, iD);
 
     }
+
+    [Test]
+    public void Check_if_ID_passed_through_constructor_converts_to_lowercase_if_uppercase()
+    {
+        //Arrange
+        var idLowerCase = "asdfg";
+        var idUpperCase = "ASDFG";
+        _buildingController = new BuildingController(idUpperCase);
+        
+        //Act
+        var result2 = _buildingController.GetBuildingID();
+
+        //Assert
+        Assert.AreEqual(result2, idLowerCase);
+        
+    }
+
+    [Test]
+    public void Check_SetBuildingID_functionality()
+    {
+        //Arrange
+        var initialID = "qwerty";
+        var finalID = "asdf";
+        _buildingController = new BuildingController(initialID);
+
+        //Act
+        _buildingController.SetBuildingID(finalID);
+        var result3 = _buildingController.GetBuildingID();
+
+        //Assert
+        Assert.AreEqual(result3, finalID);
+    }
+
+    [Test]
+    public void Check_if_setBuildingID_changes_uppercase_to_lowercase()
+    {
+        //Arrange
+        var initialID = "QWERTY";
+        var finalIDUpperCase = "ASDF";
+        var finalIDLowerCase = "asdf";
+        _buildingController = new BuildingController(initialID);
+        
+        //Act
+        _buildingController.SetBuildingID(finalIDUpperCase);
+        var result4 = _buildingController.GetBuildingID();
+
+        //Assert
+        Assert.AreEqual(result4, finalIDLowerCase);
+    }
+
+    [Test]
+    public void Check_if_it_accepts_numbers_and_special_characters()
+    {
+        //Arrange
+        var id = "asd12%^";
+        _buildingController = new BuildingController(id);
+        
+        //Act
+        var result5 = _buildingController.GetBuildingID();
+
+        //Assert
+        Assert.AreEqual(result5, id);
+    }
+
+    [Test]
+    public void Check_if_constructor_initially_sets_currentState_to_outOfHours()
+    {
+        //Arrange
+        var id = "asdf";
+        var state = "out of hours";
+        _buildingController = new BuildingController(id);
+        
+        //Act
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result, state);
+    }
+
+    [Test]
+    public void Check_if_SetState_functionality()
+    {
+        //Arrange
+        var changedState = "open";
+        _buildingController = new BuildingController("asdf");
+        
+        //Act
+        _buildingController.SetCurrentState(changedState);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result, changedState);
+    }
+
+    [Test]
+    public void Check_if_invalid_state_Set()
+    {
+        //Arrange
+        var changedState = "invalid";
+        _buildingController = new BuildingController("asdf");
+        
+        //Act
+        _buildingController.SetCurrentState(changedState);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result, changedState);
+    }
+
 }

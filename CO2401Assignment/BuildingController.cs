@@ -66,7 +66,7 @@ public class BuildingController
 
     public bool SetCurrentState(string state)
     {
-        string historyState = "";
+        /*string historyState = "";
         
         
         //level 02 requirements 
@@ -118,14 +118,14 @@ public class BuildingController
             
             SetCurrentState(state);
         }
-       
+       */
         
         //level 01 requirements 
-        /*if (state is "closed" or "out of hours" or "open" or "fire drill" or "fire alarm")
+        if (state is "closed" or "out of hours" or "open" or "fire drill" or "fire alarm")
         {
             currentState = state;
-            return true;
-        }*/
+            //return true;
+        }
 
         return true;
     }
