@@ -3,4 +3,5 @@
 public interface IFireAlarmManager
 {
     string GetStatus();
+    void SetAlarm(bool isActive);
 }

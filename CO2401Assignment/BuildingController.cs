@@ -66,7 +66,7 @@ public class BuildingController
 
     public bool SetCurrentState(string state)
     {
-        /*string historyState = "";
+        string historyState = "";
         
         
         //level 02 requirements 
@@ -87,7 +87,12 @@ public class BuildingController
                     currentState = state;
                 }
             }
-            
+            //Level 4 requirements
+            else if (state is "closed")
+            {
+                bool lockDoors = iDoorManager.LockAllDoors();
+                iLightManager.SetAllLights (false);
+            }           
         } 
         else if (currentState == "open" && state is "out of hours")
         {
@@ -97,6 +102,23 @@ public class BuildingController
         {
             historyState = currentState;
             currentState = state;
+            // Level 4 requirements
+            if (state is "fire alarm")
+            {
+                iFireAlarmManager.SetAllLights(true);
+                iDoorManager.OpenAllDoors();
+                iLightManager.SetAllLights(true);
+                try
+                {
+                    iWebService.LogFireAlarm("fire alarm");
+                }
+                catch (Exception ex)
+                {
+                    iEmailService.SendMail("smartbuilding@uclan.ac.uk", "failed to log alarm", ex.Message);
+                }
+                
+
+            }
         }
         else if (currentState is "fire drill" or "fire alarm" && state is "closed" or "out of hours" or "open" )
         {
@@ -118,24 +140,51 @@ public class BuildingController
             
             SetCurrentState(state);
         }
-       */
+       
         
-        //level 01 requirements 
+        /*//level 01 requirements 
         if (state is "closed" or "out of hours" or "open" or "fire drill" or "fire alarm")
         {
             currentState = state;
             //return true;
         }
-
+        */
         return true;
     }
     
     //level 03 requirements
     public string GetStatusReport()
     {
+        //Level 4 requirements
+        bool isFaultLight = false;
+        bool isFaultDoor = false;
+        bool isFaultFireAlarm = false;
+        string logDetails = "";
+
         string lightStatus = iLightManager.GetStatus();
         string doorStatus = iDoorManager.GetStatus();
         string fireAlarmStatus = iFireAlarmManager.GetStatus();
+        
+        //Level 4 requirements
+        if(lightStatus.Contains("FAULT"))
+        {
+            isFaultLight = true;
+            logDetails += "Lights,";
+        }
+        if (doorStatus.Contains("FAULT"))
+        {
+            isFaultDoor = true;
+            logDetails += "Doors,";
+        }
+        if (fireAlarmStatus.Contains("FAULT"))
+        {
+            isFaultFireAlarmStatus = true;
+            logDetails += "FireAlarm,";
+        }
+        if( isFaultLight || isFaultDoor || isFaultFireAlarm)
+        {
+            iWebService.LogEngineerRequired(logDetails);
+        }
         
         return lightStatus + doorStatus + fireAlarmStatus;
     }
