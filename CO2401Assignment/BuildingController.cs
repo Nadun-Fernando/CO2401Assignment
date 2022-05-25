@@ -105,7 +105,7 @@ public class BuildingController
             // Level 4 requirements
             if (state is "fire alarm")
             {
-                iFireAlarmManager.SetAllLights(true);
+                iFireAlarmManager.SetAllAlarm(true);
                 iDoorManager.OpenAllDoors();
                 iLightManager.SetAllLights(true);
                 try
@@ -178,7 +178,7 @@ public class BuildingController
         }
         if (fireAlarmStatus.Contains("FAULT"))
         {
-            isFaultFireAlarmStatus = true;
+            isFaultFireAlarm = true;
             logDetails += "FireAlarm,";
         }
         if( isFaultLight || isFaultDoor || isFaultFireAlarm)

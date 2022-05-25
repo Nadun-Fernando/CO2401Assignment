@@ -6,7 +6,7 @@ public interface ILightManager
 
     void SetLight(bool isOn, int lightID);
 
-    void SetAllLight(bool isOn);
+    void SetAllLights(bool isOn);
 
 
 }
