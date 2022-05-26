@@ -23,11 +23,11 @@ public class BuildingControllerTests
         _lightManager = Substitute.For<ILightManager>();
         _fireAlarmManager = Substitute.For<IFireAlarmManager>();
         _webService = Substitute.For<IWebService>();
-
     }
 
     //level 1 test cases 
     
+    /*
     [Test]
     public void Check_if_ID_passed_to_through_Constructor()
     {
@@ -150,5 +150,133 @@ public class BuildingControllerTests
         //Assert
         Assert.AreEqual(result, changedState);
     }
+    */
+    
+    //level 2 test cases
 
+    /*[Test]
+    public void Check_state_change_from_closed_to_outOfHours()
+    {
+        //Arrange
+        var stateChange = "out of hours";
+        _buildingController = new BuildingController("asds","closed");
+        
+        //Act
+        _buildingController.SetCurrentState(stateChange);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,stateChange);
+    }
+    
+    [Test]
+    public void Check_state_change_from_open_to_outOfHours() 
+    {
+        //Arrange
+        var stateChange = "out of hours";
+        _buildingController = new BuildingController("asds","open");
+        
+        //Act
+        _buildingController.SetCurrentState(stateChange);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,stateChange);
+    }
+    
+    [Test]
+    public void Check_state_change_from_outOfHours_to_closed()
+    {
+        //Arrange
+        var stateChange = "closed";
+        _buildingController = new BuildingController("asds","out of hours");
+        
+        //Act
+        _buildingController.SetCurrentState(stateChange);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,stateChange);
+    }
+    
+    [Test]
+    public void Check_state_change_from_outOfHours_to_open()
+    {
+        //Arrange
+        var stateChange = "open";
+        _buildingController = new BuildingController("asds","out of hours");
+        
+        //Act
+        _buildingController.SetCurrentState(stateChange);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,stateChange);
+    }
+    
+    [Test]
+    public void Check_state_change_from_open_to_closed()
+    {
+        //Arrange
+        var stateChange = "closed";
+        _buildingController = new BuildingController("asds","open");
+        
+        //Act
+        _buildingController.SetCurrentState(stateChange);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,stateChange);
+    }
+    
+    [Test]
+    public void Check_state_change_from_closed_to_fireDrill()
+    {
+        //Arrange
+        var stateChange = "fire drill";
+        _buildingController = new BuildingController("asds","closed");
+        
+        //Act
+        _buildingController.SetCurrentState(stateChange);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,stateChange);
+    }
+    
+    [Test]
+    public void Check_state_change_from_open_to_fireAlarm()
+    {
+        //Arrange
+        var stateChange = "fire alarm";
+        _buildingController = new BuildingController("asds","open");
+        
+        //Act
+        _buildingController.SetCurrentState(stateChange);
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,stateChange);
+    }
+    
+    [Test]
+    public void Check_constructor_accepts_fireAlarm()
+    {
+        //Arrange
+        var state = "fire alarm";
+        _buildingController = new BuildingController("asds",state);
+        
+        //Act
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,state);
+    }
+    
+    */
+    
+    //level 3 test cases
+    
+    
+    
 }
