@@ -272,11 +272,55 @@ public class BuildingControllerTests
         //Assert
         Assert.AreEqual(result,state);
     }
-    
+    [Test]
+    public void Check_state_change_from_fireDrill_to_fireAlarm()
+    {
+        //Arrange
+        var stateChange1 = "fire alarm";
+        var stateChange2 = "fire drill";
+        _buildingController = new BuildingController("asds","open");
+
+        //Act
+        _buildingController.SetCurrentState(stateChange2);
+        _buildingController.SetCurrentState(stateChange1);
+        var result = _buildingController.GetCurrentState();
+
+        //Assert
+        Assert.AreEqual(result,stateChange1);
+    }
+
+    [Test]
+    public void Check_state_change_from_fireAlarm_to_new_state()
+    {
+        //Arrange
+        var stateChange = "open";
+        _buildingController = new BuildingController("asdf", "open");
+
+        //Act
+        _buildingController.SetCurrentState("fire alarm");
+        _buildingController.SetCurrentState(stateChange);
+        var result = _buildingController.GetCurrentState();
+
+        //Assert
+        Assert.AreEqual(result,stateChange);
+    }
+
+    [Test]
+    public void Check_change_state_to_same_state()
+    {
+        //Arrange
+        var newState = "open";
+        _buildingController = new BuildingController("asdf", "open");
+
+        //Act
+        _buildingController.SetCurrentState(newState);
+        var result = _buildingController.GetCurrentState();
+
+        //Assert
+        Assert.AreEqual(result,newState);
+    }
     */
     
     //level 3 test cases
-    
-    
     
 }
