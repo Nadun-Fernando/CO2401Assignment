@@ -323,4 +323,92 @@ public class BuildingControllerTests
     
     //level 3 test cases
     
+        [Test]
+    public void Check_return_Statements_for_GetStatusReport()
+    {
+        //Arrange
+        _buildingController = new BuildingController("asdf", _lightManager, _fireAlarmManager, _doorManager,
+            _webService, _emailService);
+        _lightManager.GetStatus().Returns("Lights,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+        _fireAlarmManager.GetStatus().Returns("FireAlarm,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+        _doorManager.GetStatus().Returns("Doors,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+        //Act
+        var result = _buildingController.GetStatusReport();
+
+        //Assert
+        Assert.AreEqual(result,"Lights,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,Doors,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,FireAlarm,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+    }
+
+    [Test]
+    public void return_statement_of_lightManagerClass()
+    {
+        //Arrange
+        _lightManager.GetStatus().Returns("Lights,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+        
+        //Act
+        var result = _lightManager.GetStatus();
+        
+        //Assert
+        Assert.AreEqual(result,"Lights,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+        
+    }
+
+    [Test]
+    public void return_statement_of_doorManagerClass()
+    {
+        //Arrange
+        _doorManager.GetStatus().Returns("Doors,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+        
+        //Act
+        var result = _doorManager.GetStatus();
+        
+        //Assert
+        Assert.AreEqual(result,"Doors,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+        
+    }
+
+    [Test]
+    public void return_statement_of_fireAlarmManageerClass()
+    {
+        //Arrange
+        _fireAlarmManager.GetStatus().Returns("FireAlarm,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+        
+        //Act
+        var result = _fireAlarmManager.GetStatus();
+        
+        //Assert
+        Assert.AreEqual(result,"FireAlarm,OK,OK,FAULT,OK,OK,OK,OK,FAULT,OK,OK,");
+    }
+
+    [Test]
+    public void SetCurrentState_to_open_while_openAllDoors_returns_false()
+    {
+        //Arrange
+        _buildingController = new BuildingController("asdf", _lightManager, _fireAlarmManager, _doorManager,
+            _webService, _emailService);
+        _doorManager.OpenAllDoors().Returns(false);
+
+        //Act
+        var result = _buildingController.SetCurrentState("open");
+        
+        //Assert
+        Assert.AreEqual(result,false);
+    }
+
+    [Test]
+    public void SetCurrentState_to_open_while_openAllDoors_returns_true()
+    {
+        //Arrange
+        _buildingController = new BuildingController("asdf", _lightManager, _fireAlarmManager, _doorManager,
+            _webService, _emailService);
+        _doorManager.OpenAllDoors().Returns(true);
+        
+        //Act
+        _buildingController.SetCurrentState("open");
+        var result = _buildingController.GetCurrentState();
+        
+        //Assert
+        Assert.AreEqual(result,"open");
+    }
+    
 }
