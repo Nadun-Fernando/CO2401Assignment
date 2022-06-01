@@ -1,3 +1,5 @@
+using System;
+using System.Data;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -26,7 +28,7 @@ public class BuildingControllerTests
     }
 
     //level 1 test cases 
-    
+
     /*
     [Test]
     public void Check_if_ID_passed_to_through_Constructor()
@@ -150,11 +152,10 @@ public class BuildingControllerTests
         //Assert
         Assert.AreEqual(result, changedState);
     }
-    */
     
     //level 2 test cases
 
-    /*[Test]
+    [Test]
     public void Check_state_change_from_closed_to_outOfHours()
     {
         //Arrange
@@ -319,11 +320,10 @@ public class BuildingControllerTests
         //Assert
         Assert.AreEqual(result,newState);
     }
-    */
     
     //level 3 test cases
     
-        [Test]
+    [Test]
     public void Check_return_Statements_for_GetStatusReport()
     {
         //Arrange
@@ -410,5 +410,86 @@ public class BuildingControllerTests
         //Assert
         Assert.AreEqual(result,"open");
     }
+    */
+
+    //level 4 test cases
+
+    [Test]
+    public void SetCurrentState_moved_to_closed_state_with_lockAllDoors_returning_true()
+    {
+        //Arrange
+        _buildingController = new BuildingController("asdf", _lightManager, _fireAlarmManager, _doorManager,
+            _webService, _emailService);
+        _doorManager.LockAllDoors().Returns(true);
+
+        //Act
+        _buildingController.SetCurrentState("closed");
+
+        //Assert
+        _doorManager.Received().LockAllDoors();
+    }
+
+    [Test]
+    public void test_when_state_changed_to_fireAlarm_and_log_is_made()
+    {
+        //Arrange
+        _buildingController = new BuildingController("asdf", _lightManager, _fireAlarmManager, _doorManager,
+            _webService, _emailService);
+        _doorManager.OpenAllDoors().Returns(true);
+
+        //Act
+        _buildingController.SetCurrentState("fire alarm");
+
+        //Assert
+        _webService.Received().LogFireAlarm("fire alarm");
+    }
+
+    [Test]
+    public void fault_in_lights()
+    {
+        //Arrange
+        _buildingController = new BuildingController("asdf", _lightManager, _fireAlarmManager, _doorManager,
+            _webService, _emailService);
+        _lightManager.GetStatus().Returns("FAULT");
+        _doorManager.GetStatus().Returns("OK");
+        _fireAlarmManager.GetStatus().Returns("OK");
+
+        //Act
+        _buildingController.GetStatusReport();
+        
+        //Assert
+        _webService.LogEngineerRequired("Lights,");
+    }
     
+    [Test]
+    public void fault_in_two_interfaces()
+    {
+        //Arrange
+        _buildingController = new BuildingController("asdf", _lightManager, _fireAlarmManager, _doorManager,
+            _webService, _emailService);
+        _lightManager.GetStatus().Returns("FAULT");
+        _doorManager.GetStatus().Returns("FAULT");
+        _fireAlarmManager.GetStatus().Returns("OK");
+
+        //Act
+        _buildingController.GetStatusReport();
+        
+        //Assert
+        _webService.LogEngineerRequired("Lights,Doors,");
+    }
+    
+    [Test]
+    public void if_exception_thrown_when_fire_alarm_state_called()
+    {
+        //Arrange
+        _buildingController = new BuildingController("asdf", _lightManager, _fireAlarmManager, _doorManager,
+            _webService, _emailService);
+
+        //Act
+        _buildingController.SetCurrentState("fire alarm").Returns(x => { throw new Exception("error"); });
+
+        //Assert
+        _emailService.Received().SendMail("smartbuilding@uclan.ac.uk", "failed to log alarm", "error");
+
+    }
 }
