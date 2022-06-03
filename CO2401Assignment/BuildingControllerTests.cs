@@ -20,6 +20,7 @@ public class BuildingControllerTests
     [SetUp]
     public void Setup()
     {
+        //mocks for interfaces
         _doorManager = Substitute.For<IDoorManager>();
         _emailService = Substitute.For<IEmailService>();
         _lightManager = Substitute.For<ILightManager>();
@@ -29,8 +30,9 @@ public class BuildingControllerTests
 
     //level 1 test cases 
 
-    /*
+    
     [Test]
+    //L1R1
     public void Check_if_ID_passed_to_through_Constructor()
     {
         //Arrange
@@ -46,6 +48,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L1R3
     public void Check_if_ID_passed_through_constructor_converts_to_lowercase_if_uppercase()
     {
         //Arrange
@@ -62,6 +65,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L1R4
     public void Check_SetBuildingID_functionality()
     {
         //Arrange
@@ -78,6 +82,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L1R4
     public void Check_if_setBuildingID_changes_uppercase_to_lowercase()
     {
         //Arrange
@@ -95,6 +100,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L1R2
     public void Check_if_it_accepts_numbers_and_special_characters()
     {
         //Arrange
@@ -109,6 +115,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L1R5
     public void Check_if_constructor_initially_sets_currentState_to_outOfHours()
     {
         //Arrange
@@ -124,6 +131,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L1R7
     public void Check_if_SetState_functionality()
     {
         //Arrange
@@ -139,6 +147,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L1R7
     public void Check_if_invalid_state_Set()
     {
         //Arrange
@@ -156,6 +165,7 @@ public class BuildingControllerTests
     //level 2 test cases
 
     [Test]
+    //L2R1
     public void Check_state_change_from_closed_to_outOfHours()
     {
         //Arrange
@@ -171,6 +181,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L2R1
     public void Check_state_change_from_open_to_outOfHours() 
     {
         //Arrange
@@ -186,6 +197,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L2R1
     public void Check_state_change_from_outOfHours_to_closed()
     {
         //Arrange
@@ -201,6 +213,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L2R1
     public void Check_state_change_from_outOfHours_to_open()
     {
         //Arrange
@@ -216,6 +229,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L2R1
     public void Check_state_change_from_open_to_closed()
     {
         //Arrange
@@ -231,6 +245,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L2R1
     public void Check_state_change_from_closed_to_fireDrill()
     {
         //Arrange
@@ -246,6 +261,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L2R1
     public void Check_state_change_from_open_to_fireAlarm()
     {
         //Arrange
@@ -261,6 +277,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L2R3
     public void Check_constructor_accepts_fireAlarm()
     {
         //Arrange
@@ -274,6 +291,7 @@ public class BuildingControllerTests
         Assert.AreEqual(result,state);
     }
     [Test]
+    //L2R1
     public void Check_state_change_from_fireDrill_to_fireAlarm()
     {
         //Arrange
@@ -291,6 +309,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L2R1
     public void Check_state_change_from_fireAlarm_to_new_state()
     {
         //Arrange
@@ -307,6 +326,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L2R2
     public void Check_change_state_to_same_state()
     {
         //Arrange
@@ -324,6 +344,7 @@ public class BuildingControllerTests
     //level 3 test cases
     
     [Test]
+    //L3R3
     public void Check_return_Statements_for_GetStatusReport()
     {
         //Arrange
@@ -340,6 +361,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L3R2
     public void return_statement_of_lightManagerClass()
     {
         //Arrange
@@ -354,6 +376,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L3R2
     public void return_statement_of_doorManagerClass()
     {
         //Arrange
@@ -368,6 +391,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L3R2
     public void return_statement_of_fireAlarmManageerClass()
     {
         //Arrange
@@ -381,6 +405,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L3R5
     public void SetCurrentState_to_open_while_openAllDoors_returns_false()
     {
         //Arrange
@@ -396,6 +421,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L3R5
     public void SetCurrentState_to_open_while_openAllDoors_returns_true()
     {
         //Arrange
@@ -410,11 +436,11 @@ public class BuildingControllerTests
         //Assert
         Assert.AreEqual(result,"open");
     }
-    */
 
     //level 4 test cases
 
     [Test]
+    //L4R1
     public void SetCurrentState_moved_to_closed_state_with_lockAllDoors_returning_true()
     {
         //Arrange
@@ -430,6 +456,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L4R2
     public void test_when_state_changed_to_fireAlarm_and_log_is_made()
     {
         //Arrange
@@ -445,6 +472,7 @@ public class BuildingControllerTests
     }
 
     [Test]
+    //L4R3
     public void fault_in_lights()
     {
         //Arrange
@@ -462,6 +490,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L4R3
     public void fault_in_two_interfaces()
     {
         //Arrange
@@ -479,6 +508,7 @@ public class BuildingControllerTests
     }
     
     [Test]
+    //L4R4
     public void if_exception_thrown_when_fire_alarm_state_called()
     {
         //Arrange
@@ -486,10 +516,11 @@ public class BuildingControllerTests
             _webService, _emailService);
 
         //Act
-        _buildingController.SetCurrentState("fire alarm").Returns(x => { throw new Exception("error"); });
+       //_buildingController.SetCurrentState("fire alarm").Returns(x => { throw new Exception("error"); });
+       //ArgumentException ex = Assert.Throws<ArgumentException>(() => _buildingController.SetCurrentState("fire alarm"));
+       Assert.That(() => _buildingController.SetCurrentState("fire alarm"), Throws.Exception.With.Message.EqualTo("error"));
 
-        //Assert
-        _emailService.Received().SendMail("smartbuilding@uclan.ac.uk", "failed to log alarm", "error");
-
+       //Assert
+        _emailService.Received().SendMail("smartbuilding@uclan.ac.uk", "failed to log alarm","error");
     }
 }
